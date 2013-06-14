@@ -25,11 +25,13 @@ Ext.define("viewer.components.Slider",{
     extend: "viewer.components.Component",
     slider: null,
     layers : null,
+    delayId: null,
     config:{
         selectedLayers: null,
         name : null,
         title: null,
-        initialTransparency: 0
+        initialTransparency: 0,
+        delay: 100
     },
     constructor : function (conf){
         viewer.components.Slider.superclass.constructor.call(this, conf);
@@ -37,7 +39,8 @@ Ext.define("viewer.components.Slider",{
         this.initConfig(conf);
         this.layers=new Array();
         this.currentSliderValue = this.initialTransparency;
-
+        this.delayId=0;
+        
         this.slider = Ext.create(MobileManager.isMobile() ? 'viewer.components.MobileSlider' : 'Ext.slider.Single', {
             width: MobileManager.isMobile() ? '100%' : 200,
             value: this.initialTransparency,
@@ -95,6 +98,17 @@ Ext.define("viewer.components.Slider",{
      * Slider changed.
      */
     sliderChanged: function (slider,value) {       
+        var me=this;
+        this.delayId++;
+        setTimeout(function (){
+            me.sliderChangedAfter(slider,value,delayId)
+        },me.delay);
+    },
+            
+    sliderChangedAfter: function(slider, value, delId){
+        if (delId != this.delayId){
+            return;
+        }
         this.currentSliderValue = value;
         for(var i = 0 ; i< this.layers.length ;i++){
             var layer = this.layers[i];
