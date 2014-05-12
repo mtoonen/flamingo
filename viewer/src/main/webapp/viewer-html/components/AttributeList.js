@@ -218,7 +218,8 @@ Ext.define ("viewer.components.AttributeList",{
                 newEl.id=this.name +gridId+ 'Container';
                 newEl.style.margin="5px";
                 expandRow.children[0].children[0].appendChild(newEl);
-                this.createGrid(gridId,newEl, this.appLayer, ft.id,ft.filter,false);
+                var relateType = this.getRelateType (this.appLayer, ft.id);
+                this.createGrid(gridId,newEl, this.appLayer, ft.id,ft.filter,false, relateType === 'relate');
             }
             store.addListener("load",function(){
                 for (var i=0; i < childGridIds.length; i ++){
@@ -327,7 +328,7 @@ Ext.define ("viewer.components.AttributeList",{
             remoteFilter: true,
             proxy: {
                 type: 'ajax',
-                timeout: 40000,
+                timeout: 120000,
                 url: appLayer.featureService.getStoreUrl() + "&arrays=1"+featureType+filter,
                 reader: {
                     type: 'json',
@@ -414,6 +415,34 @@ Ext.define ("viewer.components.AttributeList",{
             });
             this.pagers[gridId]=p;
         }
+    },
+    getRelateType :function(appLayer, ftId){
+        var type = null;
+        if(appLayer.relations && appLayer.relations.length > 0){
+            for(var i =0 ; i < appLayer.relations.length ; i++){
+                type = this.traverseRelations(appLayer.relations[i],ftId);
+                if(type !== null){
+                    break;
+                }
+            }
+        }
+        return type;
+    },
+    traverseRelations: function(relation, ftId) {
+        if (relation.featureType === ftId) {
+            return relation.type;
+        }else if( relation.relations && relation.relations.length > 0){
+            var type = null;
+        
+            for(var i =0 ; i < relation.relations.length ; i++){
+                type = this.traverseRelations(relation.relations[i], ftId);
+                if(type !== null){
+                    break;
+                }
+            }
+            return type;
+        }
+        return null;
     }
 });
 
