@@ -40,6 +40,9 @@ Ext.define('viewer.LayoutManager', {
     popupWin: null,
     
     constructor: function(config) {
+        if(config.autoRender === undefined){
+            config.autoRender = true;
+        }
         Ext.apply(this, config || {});
         if(this.autoRender) {
             this.createLayout();

@@ -74,7 +74,8 @@ Ext.define("viewer.viewercontroller.ViewerController", {
             var layoutOptions = {
                 layout: app.layout,
                 configuredComponents: app.components,
-                maxHeight: maxHeight
+                maxHeight: maxHeight,
+                autoRender: app.layout.autoRender
             };
             if (domId){
                 layoutOptions.wrapperId= domId;

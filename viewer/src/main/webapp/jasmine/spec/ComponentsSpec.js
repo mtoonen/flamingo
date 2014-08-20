@@ -1,7 +1,14 @@
 describe("Flamingo components tests", function() {
     var viewerController;
     beforeEach(function(){
-        viewerController = new viewer.viewercontroller.ViewerController("openlayers", null, {}, {},{});
+        viewer.LayoutManager.prototype.getMapId= function(){
+            return "test";
+        };
+        viewerController = new viewer.viewercontroller.ViewerController("openlayers", "test", {
+            layout:{
+                autoRender: false
+            }
+        }, {},{});
     });
     describe("Spatial Filter tests", function() {
         var spatialFilter = null;
