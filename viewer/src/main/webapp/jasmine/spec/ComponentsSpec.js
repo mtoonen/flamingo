@@ -1,14 +1,28 @@
+var contextPath = "..";
+var MobileManager;
+var actionBeans;
+var appId = 1;
 describe("Flamingo components tests", function() {
     var viewerController;
     beforeEach(function(){
+        MobileManager = {
+            isMobile : function(){
+                return false;
+            }
+        };
         viewer.LayoutManager.prototype.getMapId= function(){
             return "test";
+        };
+        Ext.getBody = function(){
+            return Ext.get("test");
         };
         viewerController = new viewer.viewercontroller.ViewerController("openlayers", "test", {
             layout:{
                 autoRender: false
             }
         }, {},{});
+        actionBeans ={
+        };
     });
     describe("Spatial Filter tests", function() {
         var spatialFilter = null;
@@ -20,6 +34,7 @@ describe("Flamingo components tests", function() {
                 viewerController:viewerController,
                 layers: [],
                 applyDirect: false,
+                div: 'test',
                 multiGeometries: true,
                 label: "",
                 details:{
