@@ -5,7 +5,7 @@ var appId = 1;
 describe("Flamingo components tests", function() {
     
     actionBeans = {
-        css: "asdfasdf"
+        css: "mockurl"
     };
     var viewerController;
     beforeEach(function(){
@@ -68,11 +68,14 @@ describe("Flamingo components tests", function() {
                     height: 100
                 }
             });
-        //    spyOn(viewerController, "setFilter");
+            spyOn(viewerController, "setFilter");
+            spatialFilter.setFilter("POINT(1 2)", {attributes: {}, geometryAttribute: "mockGeometryAttribute"});
         });
-/*
-        it("setFilter calls viewerController.setFilter", function() {
-          //  expect(spatialFilter.setFilter).toHaveBeenCalled();
-        });*/
+        describe(" inner functions",function(){
+            
+            it("setFilter calls viewerController.setFilter", function() {
+                expect(viewerController.setFilter).toHaveBeenCalled();
+            });
+        });
     });
 });
