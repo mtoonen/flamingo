@@ -72,9 +72,11 @@ describe("Flamingo components tests", function() {
             Ext.getCmp("spatialFilterBufferDistance").setValue(666);
             spyOn(viewerController, "setFilter");
             spyOn(Ext.Ajax, "request");
+            spyOn(viewerController.mapComponent, "createVectorLayer");//.and.callThrough();
             
             spatialFilter.setFilter("POINT(1 2)", {attributes: {}, geometryAttribute: "mockGeometryAttribute"});
             spatialFilter.buffer();
+            spatialFilter.createVectorLayer();
         });
         describe(" inner functions",function(){
             it("setFilter calls viewerController.setFilter", function() {
@@ -83,6 +85,9 @@ describe("Flamingo components tests", function() {
             it("buffer calls Ajaxrequest",function(){
                 expect(Ext.Ajax.request).toHaveBeenCalled();
             });
+            /*it("createVectorlayer delegates to mapComponent",function(){
+                expect(viewerController.mapComponent.createVectorLayer).toHaveBeenCalled();
+            });*/
         });
     });
 });
