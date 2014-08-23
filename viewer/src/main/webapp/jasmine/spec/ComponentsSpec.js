@@ -3,6 +3,10 @@ var MobileManager;
 var actionBeans;
 var appId = 1;
 describe("Flamingo components tests", function() {
+    
+    actionBeans = {
+        css: "asdfasdf"
+    };
     var viewerController;
     beforeEach(function(){
         MobileManager = {
@@ -18,11 +22,33 @@ describe("Flamingo components tests", function() {
         };
         viewerController = new viewer.viewercontroller.ViewerController("openlayers", "test", {
             layout:{
-                autoRender: false
-            }
+                autoRender: false,
+                top_menu: {
+                    layout: {
+                        height: "100"
+                    }
+                },
+                content_bottom: {
+                    layout: {
+                        height: "100"
+                    }
+                }
+            },
+            components:[{
+                    openLayersMap1:{
+                        className: "viewer.mapcomponents.OpenLayersMap",
+                        config:{
+                            div: "test",
+                            hasSharedPopup: undefined,
+                            isPopup:undefined,
+                            regionName: "content",
+                            showOnStartup : undefined
+                        },
+                        details:{},
+                        name: "openLayersMap1"
+                    }
+            }]
         }, {},{});
-        actionBeans ={
-        };
     });
     describe("Spatial Filter tests", function() {
         var spatialFilter = null;
@@ -42,12 +68,11 @@ describe("Flamingo components tests", function() {
                     height: 100
                 }
             });
+        //    spyOn(viewerController, "setFilter");
         });
-
-        it("and so is a spec", function() {
-            a = true;
-
-            expect(a).toBe(true);
-        });
+/*
+        it("setFilter calls viewerController.setFilter", function() {
+          //  expect(spatialFilter.setFilter).toHaveBeenCalled();
+        });*/
     });
 });
