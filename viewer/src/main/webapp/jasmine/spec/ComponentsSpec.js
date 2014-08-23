@@ -59,6 +59,7 @@ describe("Flamingo components tests", function() {
                 tooltip: "SpatialFilterTooltip",
                 viewerController:viewerController,
                 layers: [],
+                name:"spatialFilter",
                 applyDirect: false,
                 div: 'test',
                 multiGeometries: true,
@@ -68,13 +69,19 @@ describe("Flamingo components tests", function() {
                     height: 100
                 }
             });
+            Ext.getCmp("spatialFilterBufferDistance").setValue(666);
             spyOn(viewerController, "setFilter");
+            spyOn(Ext.Ajax, "request");
+            
             spatialFilter.setFilter("POINT(1 2)", {attributes: {}, geometryAttribute: "mockGeometryAttribute"});
+            spatialFilter.buffer();
         });
         describe(" inner functions",function(){
-            
             it("setFilter calls viewerController.setFilter", function() {
                 expect(viewerController.setFilter).toHaveBeenCalled();
+            });
+            it("buffer calls Ajaxrequest",function(){
+                expect(Ext.Ajax.request).toHaveBeenCalled();
             });
         });
     });
